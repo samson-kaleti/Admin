@@ -1,6 +1,6 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const Vendor = require("../models/vendormodel");
+const Vendor = require("../models/vendor.model");
 const { generateToken } = require("../utils/jwt");
 
 class VendorAuthService {

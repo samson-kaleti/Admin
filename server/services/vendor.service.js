@@ -1,4 +1,4 @@
-const Vendor = require("../models/vendormodel");
+const Vendor = require("../models/vendor.model");
 const crypto = require("crypto"); // Used for generating unique IDs
 const generateEntityId = (prefix) => {
   return `${prefix}_${crypto.randomBytes(8).toString("hex")}`;

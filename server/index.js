@@ -4,12 +4,12 @@ const cors = require("cors");
 const http = require("http");
 const sequelize = require("./config/db.js");
 const swaggerDocument = require("./swagger/swagger.json");
-const vendorRoutes = require("./routes/vendorRoutes.js");
+const vendorRoutes = require("./routes/vendor.route.js");
 const swaggerUi = require("swagger-ui-express");
 const authRoutes = require("./routes/auth.route.js");
 const planRoutes = require("./routes/plan.route.js");
 const orderRoutes = require("./routes/order.route.js");
-
+const vendorauthRoutes = require("./routes/vendorauth.route.js")
 const app = express();
 
 app.use(cors());
@@ -35,5 +35,6 @@ app.use("/api/vendors", vendorRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api", planRoutes);
+app.use("/api/vendor", vendorauthRoutes)
 
 startServer();

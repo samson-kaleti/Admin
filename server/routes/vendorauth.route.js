@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const vendorAuthController = require("../controllers/vendorAuthController");
+const vendorAuthController = require("../controllers/vendorauth.controller");
 
 /**
  * POST /api/auth/login

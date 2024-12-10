@@ -1,4 +1,4 @@
-const vendorService = require("../services/vendorService");
+const vendorService = require("../services/vendor.service");
 
 exports.getAllVendors = async (req, res) => {
   try {

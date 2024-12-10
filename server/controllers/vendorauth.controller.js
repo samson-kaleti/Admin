@@ -1,4 +1,4 @@
-const vendorAuthService = require("../services/vendorAuthService");
+const vendorAuthService = require("../services/vendorauth.service");
 
 exports.login = async (req, res) => {
   try {
