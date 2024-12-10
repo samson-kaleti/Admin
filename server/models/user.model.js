@@ -1,6 +1,11 @@
 const { DataTypes } = require("sequelize");
-const { v4: uuidv4 } = require("uuid"); // Import UUID generator
-const sequelize = require("../config/db");
+const sequelize = require("../config/db"); 
+const crypto = require("crypto");
+
+
+const generateEntityId = (prefix) => {
+  return `${prefix}_${crypto.randomBytes(8).toString("hex")}`;
+};
 
 const User = sequelize.define(
   "User",
@@ -48,24 +53,17 @@ const User = sequelize.define(
   {
     tableName: "user",
     timestamps: false,
+    underscored: true, // Use snake_case for column names
+    paranoid: true, 
     hooks: {
       beforeCreate: (user) => {
-        // Generate a UUID if `id` is not already set
         if (!user.id) {
-          user.id = uuidv4();
+          user.id = generateEntityId("user");
         }
       },
     },
   }
 );
 
-// Synchronize the model with the database
-sequelize.sync({ alter: true })
-  .then(() => {
-    console.log("Database synchronized!");
-  })
-  .catch((error) => {
-    console.error("Error synchronizing database:", error.message);
-  });
 
 module.exports = User;
