@@ -35,10 +35,10 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 // Routes
 app.use("/api/vendors", vendorRoutes);
 app.use("/api/orders", orderRoutes);
-app.use("/api/auth", authRoutes);
-app.use("/api", planRoutes);
+app.use("/api/auth",authRoutes);
+app.use("/api",planRoutes);
 app.use("/api/vendor", vendorauthRoutes) 
-app.use("/api" ,ProductRoutes ) 
-app.use("/api",CustomerRoutes)
+app.use("/api/vendor" ,ProductRoutes ) 
+app.use("/api/vendor",CustomerRoutes)
 
 startServer();
