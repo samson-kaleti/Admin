@@ -1,6 +1,7 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const Vendor = require("../models/vendor.model");
+const VendorUser = require("../models/vendoruser.model")
 const { generateToken } = require("../utils/jwt");
 
 class VendorAuthService {
@@ -21,12 +22,25 @@ class VendorAuthService {
           id: vendor.id,
           email: vendor.contact_email,
         });
-
         return { token, vendor };
       } else {
         throw new Error("Invalid email or password.");
       }
     }
+
+    const vendorUser = await VendorUser.findOne({ where: { email: email } });
+    if (vendorUser) {
+      const isPasswordValid = await bcrypt.compare(password, vendorUser.password);
+      if (isPasswordValid) {
+        const token = generateToken({
+          id: vendorUser.id,
+          email: vendorUser.email,
+        });
+        return { token, vendorUser };
+      }else{
+        throw new Error("Invalid Password.");
+      }
+    } 
   }
 
   async resetPassword(email, newPassword) {
@@ -46,6 +60,19 @@ class VendorAuthService {
       await vendor.save();
       return { message: "Password reset successful for Vendor." };
     }
+    const vendorUser = await VendorUser.findOne({ where: { email } });
+    if (vendorUser) {
+      const isPasswordSame = await bcrypt.compare(newPassword, vendorUser.password);
+      if (isPasswordSame) {
+        throw new Error("New password must be different from the current password.");
+      }
+
+      vendorUser.password = await bcrypt.hash(newPassword, 10);
+      await vendorUser.save();
+      return { message: "Password reset successful for Vendor User." };
+    }
+
+    throw new Error("Email not found.");
   }
 }
 

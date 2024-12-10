@@ -12,6 +12,7 @@ const orderRoutes = require("./routes/order.route.js");
 const vendorauthRoutes = require("./routes/vendorauth.route.js") 
 const ProductRoutes = require("./routes/product.route.js") 
 const CustomerRoutes = require("./routes/customer.route.js")
+const vendorUserRoutes = require("./routes/vendoruser.route.js");
 const app = express();
 
 app.use(cors());
@@ -38,6 +39,7 @@ app.use("/api/orders", orderRoutes);
 app.use("/api/auth",authRoutes);
 app.use("/api",planRoutes);
 app.use("/api/vendor", vendorauthRoutes) 
+app.use("/api", vendorUserRoutes);
 app.use("/api/vendor" ,ProductRoutes ) 
 app.use("/api/vendor",CustomerRoutes)
 
