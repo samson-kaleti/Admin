@@ -5,7 +5,8 @@ const http = require("http");
 const sequelize = require('./config/db.js'); 
 const swaggerDocument = require("./swagger/swagger.json")
 const vendorRoutes = require("./routes/vendorRoutes.js")
-const swaggerUi = require("swagger-ui-express");
+const swaggerUi = require("swagger-ui-express"); 
+const authRoutes  = require("./routes/auth.route.js")
 
 const app = express(); 
 
@@ -30,6 +31,8 @@ app.use("/api/vendors", vendorRoutes);
     } catch (error) {
       console.error("Database connection failed:", error.message);
     }
-  };
+  }; 
+
+  app.use("/api/auth",authRoutes)
   
   startServer();

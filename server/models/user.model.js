@@ -1,13 +1,13 @@
 const { DataTypes } = require("sequelize");
-const sequelize = require("../config/database");
+const { v4: uuidv4 } = require("uuid"); // Import UUID generator
+const sequelize = require("../config/db");
 
 const User = sequelize.define(
   "User",
   {
     id: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING, // Set as STRING since UUIDs are strings
       primaryKey: true,
-      autoIncrement: true,
     },
     email: {
       type: DataTypes.STRING,
@@ -37,18 +37,35 @@ const User = sequelize.define(
     created_at: {
       type: DataTypes.DATE,
       allowNull: false,
-      defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
+      defaultValue: sequelize.literal("CURRENT_TIMESTAMP"),
     },
     updated_at: {
       type: DataTypes.DATE,
       allowNull: false,
-      defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
+      defaultValue: sequelize.literal("CURRENT_TIMESTAMP"),
     },
   },
   {
-    tableName: "users",
+    tableName: "user",
     timestamps: false,
+    hooks: {
+      beforeCreate: (user) => {
+        // Generate a UUID if `id` is not already set
+        if (!user.id) {
+          user.id = uuidv4();
+        }
+      },
+    },
   }
 );
+
+// Synchronize the model with the database
+sequelize.sync({ alter: true })
+  .then(() => {
+    console.log("Database synchronized!");
+  })
+  .catch((error) => {
+    console.error("Error synchronizing database:", error.message);
+  });
 
 module.exports = User;
