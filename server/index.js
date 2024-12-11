@@ -3,7 +3,8 @@ const express = require("express");
 const cors = require("cors");
 const http = require("http");
 const sequelize = require("./config/db.js");
-const swaggerDocument = require("./swagger/swagger.json");
+// const swaggerDocument = require("./swagger/swagger.json");
+const { swaggerSpecs } = require("./swagger/swagger");
 const vendorRoutes = require("./routes/vendor.route.js");
 const swaggerUi = require("swagger-ui-express");
 const authRoutes = require("./routes/auth.route.js");
@@ -13,6 +14,8 @@ const vendorauthRoutes = require("./routes/vendorauth.route.js")
 const ProductRoutes = require("./routes/product.route.js") 
 const CustomerRoutes = require("./routes/customer.route.js")
 const vendorUserRoutes = require("./routes/vendoruser.route.js");
+const storeRoutes = require('./routes/store.route.js');
+
 const app = express();
 
 app.use(cors());
@@ -32,7 +35,7 @@ const startServer = async () => {
   }
 };
 // API Documentation
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpecs));
 // Routes
 app.use("/api/vendors", vendorRoutes);
 app.use("/api/orders", orderRoutes);
@@ -42,5 +45,5 @@ app.use("/api/vendor", vendorauthRoutes)
 app.use("/api", vendorUserRoutes);
 app.use("/api/vendor" ,ProductRoutes ) 
 app.use("/api/vendor",CustomerRoutes)
-
+app.use('/api/stores', storeRoutes);
 startServer();
