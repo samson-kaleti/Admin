@@ -1,6 +1,5 @@
 require("dotenv").config();
 const express = require("express");
-const cors = require("cors");
 const http = require("http");
 const sequelize = require("./config/db.js");
 // const swaggerDocument = require("./swagger/swagger.json");
@@ -15,11 +14,17 @@ const ProductRoutes = require("./routes/product.route.js")
 const CustomerRoutes = require("./routes/customer.route.js")
 const vendoruserRoutes = require("./routes/vendoruser.route.js");
 const storeRoutes = require('./routes/store.route.js');
-
+const cartRoutes = require("./routes/cart.route.js");
 const app = express();
-
-app.use(cors());
-app.use(express.json());
+const cors = require('cors')
+app.use(
+  cors({
+    origin: "http://localhost:7009", // Adjust based on your frontend
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true,
+  })
+);app.use(express.json());
 
 const startServer = async () => {
   try {
@@ -44,6 +49,7 @@ app.use("/api",planRoutes);
 app.use("/api/vendor", vendorauthRoutes) 
 app.use("/api", vendoruserRoutes);
 app.use("/api/vendor" ,ProductRoutes ) 
-app.use("/api/vendor",CustomerRoutes)
+app.use("/api/customer",CustomerRoutes)
 app.use('/api/stores', storeRoutes);
+app.use('/api/carts', cartRoutes);
 startServer();
