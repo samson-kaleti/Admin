@@ -1,5 +1,46 @@
 const customerService = require("../services/customer.service"); 
 
+
+// create a new customer 
+    const createCustomer = async (req, res) => { 
+        try {
+            const { email, first_name, last_name, password,phone,vendor_id } = req.body;
+            const customer = await customerService.createCustomer({email, first_name, last_name, password,phone,vendor_id});
+            res.status(201).json(customer);
+        } catch (error) {
+            res.status(400).json({ error: error.message });
+        }
+    }; 
+
+// login customer 
+const LoginCustomer = async (req,res)=>{
+    try {
+        const {email, password} = req.body; 
+    const result = await customerService.loginCustomer({email, password});
+    res.status(200).json(result);
+
+        
+    } catch (error) {
+        res.status(401).json({ error: error.message });
+        
+    }
+    
+
+} 
+
+
+
+// Get customer by ID 
+const getCustomerDetails = async(req,res) =>{
+    try {
+        const {id} = req.params;
+        const customer = await customerService.getCustomerDetails(id)
+        res.status(200).json(customer);
+    } catch (error) {
+        res.status(404).json({ error: error.message });  
+    }
+}
+
     // Get all customers
     const getAllCustomers = async (req, res) => {
         try {
@@ -12,5 +53,8 @@ const customerService = require("../services/customer.service");
 
     module.exports = {
         getAllCustomers,
+        createCustomer,
+        LoginCustomer,
+        getCustomerDetails,
     };
 

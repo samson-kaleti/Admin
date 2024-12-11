@@ -48,6 +48,11 @@ const User = sequelize.define(
       type: DataTypes.DATE,
       allowNull: false,
       defaultValue: sequelize.literal("CURRENT_TIMESTAMP"),
+    }, 
+    deleted_at: {
+      type: DataTypes.DATE,
+      allowNull: true,
+      defaultValue:sequelize.literal("CURRENT_TIMESTAMP"),
     },
   },
   {
