@@ -29,8 +29,7 @@ class StoreService {
   }
 
   async listStoresByVendor(vendorId) {
-    const whereClause = vendorId ? { vendorId } : {};
-    return await Store.findAll({ where: whereClause });
+    return await Store.findAll({ where: {vendor_id: vendorId} });
   }
 }
 

@@ -20,7 +20,7 @@ const storeController = require('../controllers/store.controller');
  *             properties:
  *               store_type:
  *                 type: string
- *               publishable_api_key:
+ *               publishableapikey:
  *                 type: string
  *               store_url:
  *                 type: string
@@ -78,7 +78,7 @@ router.get('/:id', storeController.getStore); // Get a store by ID
  *             properties:
  *               store_type:
  *                 type: string
- *               publishable_api_key:
+ *               publishableapikey:
  *                 type: string
  *               store_url:
  *                 type: string
