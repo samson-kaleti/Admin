@@ -5,7 +5,7 @@ const router = express.Router();
 
 /**
  * @swagger
- * /api/customers:
+ * /api/vendor/customers:
  *   get:
  *     summary: Retrieve all customers
  *     tags: [Customers]

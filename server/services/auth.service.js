@@ -30,7 +30,7 @@ class AuthService {
     const { email, password } = data;
 
     // Find the user by email
-    const user = await User.findOne({ where: { email } });
+    const user = await User.findOne({ where: { email: email } });
     if (!user) {
       throw new Error("Invalid email or password.");
     }

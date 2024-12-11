@@ -8,7 +8,7 @@ const router = express.Router();
  * @swagger
  * /api/auth/signup:
  *   post:
- *     summary: User signup
+ *     summary: Admin signup
  *     tags: [Auth]
  *     requestBody:
  *       required: true
@@ -44,7 +44,7 @@ router.post("/signup", validateRequest(["email", "first_name", "last_name", "pas
  * @swagger
  * /api/auth/login:
  *   post:
- *     summary: User login
+ *     summary: Admin login
  *     tags: [Auth]
  *     requestBody:
  *       required: true

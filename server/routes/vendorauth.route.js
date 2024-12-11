@@ -4,7 +4,7 @@ const vendorAuthController = require("../controllers/vendorauth.controller");
 
 /**
  * @swagger
- * /api/auth/login:
+ * /api/vendor/login:
  *   post:
  *     summary: Login a vendor or vendor user and return a token
  *     tags: [VendorAuth]
@@ -34,7 +34,7 @@ router.post("/login", vendorAuthController.login);
 
 /**
  * @swagger
- * /api/auth/reset-password:
+ * /api/vendor/reset-password:
  *   post:
  *     summary: Reset a vendor's password
  *     tags: [VendorAuth]
