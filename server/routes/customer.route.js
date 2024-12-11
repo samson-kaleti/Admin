@@ -3,12 +3,12 @@ const express = require('express');
 const { getAllCustomers, 
     createCustomer,
     LoginCustomer,
-    getCustomerDetails, } = require("../controllers/customer.controller");
+    getCustomerDetails,customerByVendorId } = require("../controllers/customer.controller");
 const router = express.Router(); 
 
 /**
  * @swagger
- * /api/vendor/customers/signup:
+ * /api/customer/signup:
  *   post:
  *     summary: Create a new customer
  *     tags: [Customers]
@@ -72,11 +72,11 @@ const router = express.Router();
  *       400:
  *         description: Invalid input data
  */
-router.post('/customers/signup', createCustomer);
+router.post('/signup', createCustomer);
 
 /**
  * @swagger
- * /api/vendor/customers:
+ * /api/customer:
  *   get:
  *     summary: Retrieve all customers
  *     tags: [Customers]
@@ -90,11 +90,11 @@ router.post('/customers/signup', createCustomer);
  *               items:
  *                 $ref: '#/components/schemas/Customer'
  */
-router.get('/customers', getAllCustomers);
+router.get('/', getAllCustomers);
 
 /**
  * @swagger
- * /api/vendor/customers/{id}:
+ * /api/customer/{id}:
  *   get:
  *     summary: Retrieve customer details by ID
  *     tags: [Customers]
@@ -115,11 +115,11 @@ router.get('/customers', getAllCustomers);
  *       404:
  *         description: Customer not found
  */
-router.get('/customers/:id', getCustomerDetails);
+router.get('/:id', getCustomerDetails);
 
 /**
  * @swagger
- * /api/vendor/customers/login:
+ * /api/customer/login:
  *   post:
  *     summary: Customer login
  *     tags: [Customers]
@@ -155,6 +155,34 @@ router.get('/customers/:id', getCustomerDetails);
  *       401:
  *         description: Invalid email or password
  */
-router.post('/customers/login', LoginCustomer);
+router.post('/login', LoginCustomer); 
+
+/**
+ * @swagger
+ * /api/customer/vendor/{vendor_id}:
+ *   get:
+ *     summary: Retrieve customers by vendor ID
+ *     tags: [Customers]
+ *     parameters:
+ *       - in: path
+ *         name: vendor_id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Vendor ID to filter customers
+ *     responses:
+ *       200:
+ *         description: List of customers retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Customer'
+ *       404:
+ *         description: No customers found for the given vendor ID
+ */
+
+router.get('/vendor/:vendor_id',customerByVendorId )
 
 module.exports = router;

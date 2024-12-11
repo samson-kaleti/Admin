@@ -39,7 +39,23 @@ const getCustomerDetails = async(req,res) =>{
     } catch (error) {
         res.status(404).json({ error: error.message });  
     }
-}
+} 
+
+// get customer by vendor_id 
+const customerByVendorId = async (req, res) => {
+    try {
+        const { vendor_id } = req.params;
+        console.log("Vendor ID received:", vendor_id); // Debugging
+        const customers = await customerService.getCustomerByVendorId(vendor_id);
+        res.status(200).json(customers);
+    } catch (error) {
+        console.error("Error fetching customers by vendor ID:", error.message);
+        res.status(404).json({ error: error.message });
+    }
+};
+
+
+
 
     // Get all customers
     const getAllCustomers = async (req, res) => {
@@ -55,6 +71,6 @@ const getCustomerDetails = async(req,res) =>{
         getAllCustomers,
         createCustomer,
         LoginCustomer,
-        getCustomerDetails,
+        getCustomerDetails,customerByVendorId
     };
 

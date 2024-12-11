@@ -50,7 +50,18 @@ class CustomerService {
             throw new Error("Customer ID is required.");
         } 
         return await Customer.findByPk(customer_id)
+    } 
+
+
+    // get customer by vendor_id 
+    async getCustomerByVendorId(vendor_id) {
+        if (!vendor_id) {
+            throw new Error("Vendor ID is required.");
+        }
+        console.log("Querying customers with vendor_id:", vendor_id); // Debugging
+        return await Customer.findAll({ where: { vendor_id } });
     }
+    
     
     // Fetch all customers from the database.
     async list(){
