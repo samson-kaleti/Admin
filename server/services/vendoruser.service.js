@@ -1,7 +1,9 @@
 const bcrypt = require("bcryptjs");
-const { VendorUser } = require("../models/vendoruser.model");
-const { Vendor } = require("../models/vendoruser.model");
-
+const VendorUser = require("../models/vendoruser.model");
+const crypto = require("crypto"); // Used for generating unique IDs
+const generateEntityId = (prefix) => {
+  return `${prefix}_${crypto.randomBytes(8).toString("hex")}`;
+};
 class VendorUserService {
   // Create a new VendorUser
   async createVendorUser(data) {
@@ -9,14 +11,17 @@ class VendorUserService {
       throw new Error("Email, password, and role are required");
     }
 
-    const existingUser = await VendorUser.findOne({ where: { email: data.email } });
+    const existingUser = await VendorUser.findOne({
+      where: { email: data.email },
+    });
     if (existingUser) {
       throw new Error("A user with this email already exists");
     }
-
+    const id = generateEntityId("vuser");
     const hashedPassword = await bcrypt.hash(data.password, 10);
 
     const newUser = {
+      id,
       ...data,
       password: hashedPassword,
     };
@@ -59,14 +64,14 @@ class VendorUserService {
       throw new Error(`VendorUser with id ${id} not found`);
     }
 
-    await user.destroy();
+    await user.destroy({force: true});
     return { message: "User deleted successfully" };
   }
 
   // Retrieve all users for a specific vendor
   async getUsersByVendor(vendorId) {
     const users = await VendorUser.findAll({
-      where: { vendorId },
+      where: { vendor_id: vendorId },
     });
 
     return users;

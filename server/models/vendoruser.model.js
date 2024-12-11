@@ -63,7 +63,7 @@ const VendorUser = sequelize.define(
     },
   },
   {
-    tableName: "vendor_users", // Use existing table name
+    tableName: "vendor_user", // Use existing table name
     timestamps: true, // Enable created_at and updated_at
     underscored: true, // Use snake_case for column names
     paranoid: true, // Enable deleted_at for soft deletes

@@ -18,7 +18,6 @@ class VendorService {
 
   async createVendor(data) {
     // Business logic to prevent duplicate email
-    console.log("VENDOR DATA: " + JSON.stringify(data));
     const existingVendor = await Vendor.findOne({ where: { contact_email: data.contact_email } });
     if (existingVendor) {
       throw new Error("Vendor with this email already exists.");
@@ -34,10 +33,10 @@ class VendorService {
     return await vendor.update(data);
   }
 
-  async deleteVendor(id) {
-    const vendor = await this.getVendorById(id);
-    return await vendor.destroy();
-  }
+    async deleteVendor(id) {
+      const vendor = await this.getVendorById(id);
+      return await vendor.destroy({ force: true });
+    }
 }
 
 module.exports = new VendorService();
