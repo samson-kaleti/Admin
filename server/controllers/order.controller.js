@@ -32,7 +32,7 @@ exports.listOrdersByVendor = async (req, res) => {
   try {
     const { vendorId } = req.params;
     const orders = await orderService.listOrdersByVendor(vendorId);
-    res.status(200).json({ success: true, orders });
+    res.status(200).json(orders);
   } catch (error) {
     res.status(400).json({ success: false, message: error.message });
   }

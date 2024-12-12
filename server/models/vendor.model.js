@@ -1,11 +1,14 @@
+// Import necessary dependencies
 const { DataTypes } = require("sequelize");
 const sequelize = require("../config/db");
-const crypto = require("crypto"); // Used for generating unique IDs
+const Address = require("../models/address.model")
+const crypto = require("crypto");
 
 // Function to generate a custom ID
 const generateEntityId = (prefix) => {
   return `${prefix}_${crypto.randomBytes(8).toString("hex")}`;
 };
+
 
 // Define the `Vendor` model
 const Vendor = sequelize.define(
@@ -74,7 +77,6 @@ const Vendor = sequelize.define(
     underscored: true, // Use snake_case for column names
     paranoid: true, // Enable deleted_at for soft deletes
     hooks: {
-      // Generate the ID before creating a record
       beforeCreate: (vendor) => {
         vendor.id = generateEntityId("vendor");
       },
@@ -82,4 +84,16 @@ const Vendor = sequelize.define(
   }
 );
 
-module.exports = Vendor;
+// Define associations
+Vendor.hasMany(Address, {
+  foreignKey: "vendor_address_id",
+  as: "address",
+});
+
+Address.belongsTo(Vendor, {
+  foreignKey: "id",
+  as: "vendor",
+});
+
+// Export the models
+module.exports = Vendor

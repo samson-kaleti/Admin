@@ -21,6 +21,16 @@ const Order = sequelize.define(
       allowNull: false,
       defaultValue: "pending",
     },
+    fulfillment_status: {
+      type: DataTypes.ENUM("not_fulfilled", "partially_fulfilled", "fulfilled", "partially_shipped", "shipped","partially_returned","returned","canceled","requires_action"),
+      allowNull: false,
+      defaultValue: "not_fulfilled",
+    },
+    payment_status: {
+      type: DataTypes.ENUM("not_paid", "awaiting", "captured", "partially_refunded", "refunded","canceled","requires_action"),
+      allowNull: false,
+      defaultValue: "not_paid",
+    },
     total_amount: {
       type: DataTypes.STRING,
       allowNull: true,
@@ -32,6 +42,18 @@ const Order = sequelize.define(
     public_api_key: {
       type: DataTypes.STRING,
       allowNull: true,
+    },
+    currency_code: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    customer_id: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false,
     }
   },
   {

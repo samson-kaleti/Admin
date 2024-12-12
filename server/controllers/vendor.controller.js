@@ -20,7 +20,6 @@ exports.getVendorById = async (req, res) => {
 
 exports.createVendor = async (req, res) => {
   try {
-    
     const vendor = await vendorService.createVendor(req.body);
     res.status(201).json({ success: true, vendor });
   } catch (error) {

@@ -15,6 +15,7 @@ const CustomerRoutes = require("./routes/customer.route.js")
 const vendoruserRoutes = require("./routes/vendoruser.route.js");
 const storeRoutes = require('./routes/store.route.js');
 const cartRoutes = require("./routes/cart.route.js");
+const saleschannelRoutes = require("./routes/saleschannel.route.js");
 const app = express();
 const cors = require('cors')
 app.use(
@@ -48,8 +49,9 @@ app.use("/api/auth",authRoutes);
 app.use("/api",planRoutes);
 app.use("/api/vendor", vendorauthRoutes) 
 app.use("/api", vendoruserRoutes);
-app.use("/api/vendor" ,ProductRoutes ) 
+app.use("/api/products" ,ProductRoutes ) 
 app.use("/api/customer",CustomerRoutes)
 app.use('/api/stores', storeRoutes);
 app.use('/api/carts', cartRoutes);
+app.use('/api/saleschannels', saleschannelRoutes)
 startServer();
