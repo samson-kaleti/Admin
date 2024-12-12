@@ -1,5 +1,5 @@
 const express = require("express");
-const { signup, login } = require("../controllers/auth.controller");
+const { signup, login, logout } = require("../controllers/auth.controller");
 const validateRequest = require('../middleware/validateRequest');
 
 const router = express.Router();
@@ -69,5 +69,23 @@ router.post("/signup", validateRequest(["email", "first_name", "last_name", "pas
  *         description: Invalid credentials
  */
 router.post("/login", validateRequest(["email", "password"]), login);
+
+/**
+ * @swagger
+ * /api/auth/logout:
+ *   post:
+ *     summary: Admin logout
+ *     tags: [Auth]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Logout successful
+ *       400:
+ *         description: Token is required for logout
+ *       500:
+ *         description: Server error
+ */
+router.post("/logout", logout);
 
 module.exports = router;
