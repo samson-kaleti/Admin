@@ -20,9 +20,9 @@ const app = express();
 const cors = require('cors')
 app.use(
   cors({
-    origin: "http://localhost:7009", // Adjust based on your frontend
+    origin: ["http://localhost:7009","http://localhost:7000"] ,// Adjust based on your frontend
     methods: ["GET", "POST", "PUT", "DELETE"],
-    allowedHeaders: ["Content-Type", "Authorization"],
+    allowedHeaders: ["Content-Type", "Authorization","credentials"],
     credentials: true,
   })
 );app.use(express.json());
