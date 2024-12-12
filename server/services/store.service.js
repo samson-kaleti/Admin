@@ -31,6 +31,10 @@ class StoreService {
   async listStoresByVendor(vendorId) {
     return await Store.findAll({ where: {vendor_id: vendorId} });
   }
+
+  async listStores(){
+    return await Store.findAll();
+  }
 }
 
 module.exports = new StoreService();

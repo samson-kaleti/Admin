@@ -137,4 +137,23 @@ router.delete('/:id', storeController.deleteStore); // Delete a store by ID
  */
 router.get('/', storeController.listStoresByVendor); // List stores by vendor (optional query param)
 
+/**
+ * @swagger
+ * /api/stores:
+ *   get:
+ *     summary: List stores
+ *     tags: [Stores]
+ *     responses:
+ *       200:
+ *         description: List of stores
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Store'
+ */
+router.get('/', storeController.listStores); // List stores by vendor (optional query param)
+
+
 module.exports = router;

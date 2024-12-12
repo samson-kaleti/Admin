@@ -12,7 +12,7 @@ exports.getAllVendors = async (req, res) => {
 exports.getVendorById = async (req, res) => {
   try {
     const vendor = await vendorService.getVendorById(req.params.id);
-    res.status(200).json({ success: true, vendor });
+    res.status(200).json(vendor);
   } catch (error) {
     res.status(404).json({ success: false, message: error.message });
   }

@@ -3,7 +3,7 @@ const express = require('express');
 const { getAllCustomers, 
     createCustomer,
     LoginCustomer,
-    getCustomerDetails,customerByVendorId } = require("../controllers/customer.controller");
+    getCustomerDetails,getCustomerByEmail,customerByVendorId } = require("../controllers/customer.controller");
 const router = express.Router(); 
 
 /**
@@ -184,5 +184,30 @@ router.post('/login', LoginCustomer);
  */
 
 router.get('/vendor/:vendor_id',customerByVendorId )
+
+/**
+ * @swagger
+ * /api/customer/{email}:
+ *   get:
+ *     summary: Retrieve customer details by email
+ *     tags: [Customers]
+ *     parameters:
+ *       - in: path
+ *         name: email
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Email of the customer to retrieve
+ *     responses:
+ *       200:
+ *         description: Customer details retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Customer'
+ *       404:
+ *         description: Customer not found
+ */
+router.get('/:email', getCustomerByEmail);
 
 module.exports = router;
