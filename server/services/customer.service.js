@@ -43,6 +43,23 @@ class CustomerService {
         return {token, customer};
     } 
 
+    // get customer by email
+    async getCustomerByEmail(email) {
+        if (!email) {
+          throw new Error("Email is required.");
+        }
+      
+        const customer = await Customer.findOne({
+          where: { email: email }, // Explicitly query by email
+        });
+      
+        if (!customer) {
+          throw new Error("Customer not found.");
+        }
+      
+        return customer;
+      }
+      
 
     //customer.Details 
     async getCustomerDetails(customer_id){

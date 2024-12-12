@@ -45,6 +45,15 @@ class StoreController {
       res.status(400).json({ error: error.message });
     }
   }
+
+  async listStores(req, res) {
+    try {
+      const stores = await storeService.listStores();
+      res.status(200).json(stores);
+    } catch (error) {
+      res.status(400).json({ error: error.message });
+    }
+  }
 }
 
 module.exports = new StoreController();

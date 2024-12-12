@@ -7,7 +7,7 @@ exports.getOrderById = async (req, res) => {
   try {
     const { id } = req.params;
     const order = await orderService.retrieve(id);
-    res.status(200).json({ success: true, order });
+    res.status(200).json(order);
   } catch (error) {
     res.status(404).json({ success: false, message: error.message });
   }
