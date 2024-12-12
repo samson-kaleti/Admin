@@ -4,6 +4,13 @@ const vendorController = require("../controllers/vendor.controller");
 
 /**
  * @swagger
+ * tags:
+ *   name: Vendors
+ *   description: Vendor management APIs
+ */
+
+/**
+ * @swagger
  * /api/vendors:
  *   get:
  *     summary: Retrieve all vendors
@@ -32,6 +39,7 @@ router.get("/", vendorController.getAllVendors);
  *         required: true
  *         schema:
  *           type: string
+ *           example: vendor_12345678
  *     responses:
  *       200:
  *         description: Vendor found
@@ -55,10 +63,14 @@ router.get("/:id", vendorController.getVendorById);
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/Vendor'
+ *             $ref: '#/components/schemas/VendorRequest'
  *     responses:
  *       201:
  *         description: Vendor created successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/openapi/schemas/vendor'
  *       400:
  *         description: Invalid input
  */
@@ -76,15 +88,20 @@ router.post("/", vendorController.createVendor);
  *         required: true
  *         schema:
  *           type: string
+ *           example: vendor_12345678
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/Vendor'
+ *             $ref: '#/components/schemas/VendorRequest'
  *     responses:
  *       200:
  *         description: Vendor updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Vendor'
  *       404:
  *         description: Vendor not found
  */
@@ -102,6 +119,7 @@ router.put("/:id", vendorController.updateVendor);
  *         required: true
  *         schema:
  *           type: string
+ *           example: vendor_12345678
  *     responses:
  *       200:
  *         description: Vendor deleted successfully

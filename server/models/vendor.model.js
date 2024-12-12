@@ -32,9 +32,12 @@ const Vendor = sequelize.define(
       allowNull: true,
     },
     contact_email: {
-      type: DataTypes.STRING(120),
+      type: DataTypes.STRING,
       allowNull: false,
       unique: true,
+      validate: {
+        isEmail: true,
+      },
     },
     contact_phone_number: {
       type: DataTypes.STRING(20),

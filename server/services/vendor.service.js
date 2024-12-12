@@ -21,41 +21,77 @@ class VendorService {
   }
 
   async createVendor(data) {
-    const existingVendor = await Vendor.findOne({ where: { contact_email: data.contact_email } });
-    if (existingVendor) {
-      throw new Error("Vendor with this email already exists.");
+    try {
+      // Check for existing vendor with the same email
+      const existingVendor = await Vendor.findOne({
+        where: { contact_email: data.contact_email },
+      });
+
+      if (existingVendor) {
+        throw new Error("Vendor with this email already exists.");
+      }
+
+      // Generate a unique ID for the vendor
+      const vendorId = generateEntityId("vendor");
+
+      // Hash the vendor's password
+      const hashedPassword = await bcrypt.hash(data.password, 10);
+
+      // Create the vendor
+      const vendor = await Vendor.create({
+        id: vendorId,
+        ...data,
+        password: hashedPassword,
+      });
+
+      console.log("Vendor created: ", vendor);
+
+      // Create vendor address if provided
+      if (data.vendorAddressData) {
+        const vendorAddress = {
+          id: generateEntityId("address"),
+          vendor_address_id: vendor.id, // Associate the address with the vendor
+          company: data.company_name,
+          first_name: data.vendorAddressData.first_name,
+          last_name: data.vendorAddressData.last_name,
+          address_1: data.vendorAddressData.address_1,
+          address_2: data.vendorAddressData.address_2,
+          city: data.vendorAddressData.city,
+          province: data.vendorAddressData.province,
+          postal_code: data.vendorAddressData.postal_code,
+          phone: data.vendorAddressData.phone,
+        };
+        console.log("Vendor Address: ", vendorAddress);
+        await Address.create(vendorAddress);
+      }
+
+      // Create registration address if provided
+      if (data.registrationAddressData) {
+        const registrationAddress = {
+          id: generateEntityId("address"),
+          registration_address_id: vendor.id, // Associate the address with the vendor
+          company: data.company_name,
+          first_name: data.registrationAddressData.first_name,
+          last_name: data.registrationAddressData.last_name,
+          address_1: data.registrationAddressData.address_1,
+          address_2: data.registrationAddressData.address_2,
+          city: data.registrationAddressData.city,
+          province: data.registrationAddressData.province,
+          postal_code: data.registrationAddressData.postal_code,
+          phone: data.registrationAddressData.phone,
+        };
+        console.log("Registration Address: ", registrationAddress);
+        await Address.create(registrationAddress);
+      }
+
+      return vendor;
+    } catch (error) {
+      if (error.name === "SequelizeValidationError") {
+        // Handle Sequelize validation errors
+        throw new Error(error.errors.map((e) => e.message).join(", "));
+      }
+      throw error;
     }
-
-    const vendorId = generateEntityId("vendor");
-    const hashedPassword = await bcrypt.hash(data.password, 10);
-
-    const vendorData = {
-      id: vendorId,
-      ...data,
-      password: hashedPassword,
-    };
-
-    const vendor = await Vendor.create(vendorData);
-
-    if (data.vendorAddressData) {
-      const vendorAddress = {
-        id: generateEntityId("address"),
-        vendor_id: vendor.id,
-        ...data.vendorAddressData,
-      };
-      await Address.create(vendorAddress);
-    }
-
-    if (data.registrationAddressData) {
-      const registrationAddress = {
-        id: generateEntityId("address"),
-        vendor_id: vendor.id,
-        ...data.registrationAddressData,
-      };
-      await Address.create(registrationAddress);
-    }
-
-    return this.getVendorById(vendor.id); // Fetch complete vendor details with addresses
   }
 
   async updateVendor(id, data) {
@@ -73,7 +109,11 @@ class VendorService {
       if (vendorAddress) {
         await vendorAddress.update(data.vendorAddressData);
       } else {
-        await Address.create({ id: generateEntityId("address"), vendor_id: id, ...data.vendorAddressData });
+        await Address.create({
+          id: generateEntityId("address"),
+          vendor_id: id,
+          ...data.vendorAddressData,
+        });
       }
     }
 
