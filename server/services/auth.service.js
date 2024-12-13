@@ -63,6 +63,11 @@ class AuthService {
       throw new Error("Failed to blacklist token.");
     }
   }
+
+  async getUsers(){
+    const users = await User.findAll();
+    return users;
+  }
 }
 
 module.exports = AuthService;
